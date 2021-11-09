@@ -24,9 +24,8 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
     color: "white",
     fontSize: "20px",
-    marginLeft: theme.spacing(20),
+    marginLeft: theme.spacing(5),
     "&:hover": {
-      color: "yellow",
       borderBottom: "1px solid white",
     },
   },
@@ -51,11 +50,11 @@ const NavBar = () => {
             <Link to="/" className={classes.link}>
               Home
             </Link>
-            <Link to="/about" className={classes.link}>
-              About
+            <Link to="/login" className={classes.link}>
+              Login
             </Link>
-            <Link to="/contact" className={classes.link}>
-              Contact
+            <Link to="/register" className={classes.link}>
+              Register
             </Link>
             <Link to="/faq" className={classes.link}>
               FAQ
