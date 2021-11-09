@@ -59,6 +59,9 @@ const NavBar = () => {
             <Link to="/faq" className={classes.link}>
               FAQ
             </Link>
+            <Link to="/dashboard" className={classes.link}>
+              Dashboard
+            </Link>
           </div>
         )}
       </Toolbar>
