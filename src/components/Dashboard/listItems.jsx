@@ -6,42 +6,65 @@ import ListSubheader from "@mui/material/ListSubheader";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PeopleIcon from "@mui/icons-material/People";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import LayersIcon from "@mui/icons-material/Layers";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-
+import HomeIcon from "@mui/icons-material/Home";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+import { Link } from "react-router-dom";
 export const mainListItems = (
   <div>
-    <ListItem button>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Main Dashboard" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <ShoppingCartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Change Requests" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Tenants" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Properties" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <LayersIcon />
-      </ListItemIcon>
-      <ListItemText primary="Create new Lease" />
-    </ListItem>
+    <Link to="/dashboard" style={{ color: "black", textDecoration: "none" }}>
+      <ListItem button>
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="Main Dashboard" />
+      </ListItem>
+    </Link>
+    <Link
+      to="/dashboard/change-requests"
+      style={{ color: "black", textDecoration: "none" }}
+    >
+      <ListItem button>
+        <ListItemIcon>
+          <ShoppingCartIcon />
+        </ListItemIcon>
+        <ListItemText primary="Change Requests" />
+      </ListItem>
+    </Link>
+    <Link
+      to="/dashboard/tenants"
+      style={{ color: "black", textDecoration: "none" }}
+    >
+      <ListItem button>
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Tenants" />
+      </ListItem>
+    </Link>
+    <Link
+      to="/dashboard/properties"
+      style={{ color: "black", textDecoration: "none" }}
+    >
+      <ListItem button>
+        <ListItemIcon>
+          <HomeIcon />
+        </ListItemIcon>
+        <ListItemText primary="Properties" />
+      </ListItem>
+    </Link>
+    <Link
+      to="/dashboard/create-lease"
+      style={{ color: "black", textDecoration: "none" }}
+    >
+      <ListItem button href="/dashboard/create-lease">
+        <ListItemIcon>
+          <AssignmentIcon />
+        </ListItemIcon>
+        <ListItemText primary="Create new Lease" />
+      </ListItem>
+    </Link>
   </div>
 );
 
@@ -50,13 +73,13 @@ export const secondaryListItems = (
     <ListSubheader inset>Saved reports</ListSubheader>
     <ListItem button>
       <ListItemIcon>
-        <AssignmentIcon />
+        <ChatBubbleIcon />
       </ListItemIcon>
       <ListItemText primary="New Messages" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <AssignmentIcon />
+        <MonetizationOnIcon />
       </ListItemIcon>
       <ListItemText primary="New Deposits" />
     </ListItem>
