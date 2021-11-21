@@ -40,24 +40,32 @@ const DrawerComponent = () => {
           <Divider />
           <ListItem onClick={() => setOpenDrawer(false)}>
             <ListItemText>
-              <Link to="/about" className={classes.link}>
-                About
+              <Link to="/login" className={classes.link}>
+                Login
               </Link>
             </ListItemText>
           </ListItem>
           <Divider />
           <ListItem onClick={() => setOpenDrawer(false)}>
             <ListItemText>
-              <Link to="/contact" className={classes.link}>
-                Contact
+              <Link to="/register" className={classes.link}>
+                Register
               </Link>
             </ListItemText>
           </ListItem>
           <Divider />
           <ListItem onClick={() => setOpenDrawer(false)}>
             <ListItemText>
-              <Link to="/about" className={classes.link}>
+              <Link to="/faq" className={classes.link}>
                 Faq
+              </Link>
+            </ListItemText>
+          </ListItem>
+          <Divider />
+          <ListItem onClick={() => setOpenDrawer(false)}>
+            <ListItemText>
+              <Link to="/dashboard" className={classes.link}>
+                Dashboard
               </Link>
             </ListItemText>
           </ListItem>

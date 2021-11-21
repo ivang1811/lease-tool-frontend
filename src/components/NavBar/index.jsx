@@ -41,7 +41,7 @@ const NavBar = () => {
       <CssBaseline />
       <Toolbar>
         <Typography variant="h4" className={classes.logo}>
-          Navbar
+          RentBuddies
         </Typography>
         {isMobile ? (
           <DrawerComponent />

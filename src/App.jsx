@@ -10,6 +10,8 @@ import CreateNewLease from "./pages/createNewLease";
 import Tenants from "./pages/Tenants";
 import Properties from "./pages/Properties";
 import ChangeRequest from "./pages/changeRequests";
+import AddNewTenant from "./pages/AddNewTenant";
+import ChatPage from "./pages/ChatPage";
 function App() {
   return (
     <Router>
@@ -30,6 +32,8 @@ function App() {
         ></Route>
         <Route path="dashboard/tenants" element={<Tenants />}></Route>
         <Route path="dashboard/properties" element={<Properties />}></Route>
+        <Route path="/dashboard/add-tenant" element={<AddNewTenant />}></Route>
+        <Route path="/dashboard/chat" element={<ChatPage />}></Route>
       </Routes>
     </Router>
   );

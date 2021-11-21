@@ -4,6 +4,7 @@ import DashboardPage from "../components/utils/DashboardPage";
 import { Typography } from "@material-ui/core";
 import ManagementTable from "../components/utils/ManagementTable";
 import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
 const theme = createTheme();
 
 export default function Tenants() {
@@ -12,9 +13,12 @@ export default function Tenants() {
       <Typography component="h1" variant="h5" style={{ marginBottom: 15 }}>
         Manage Tenant
       </Typography>
-      <Button variant="contained" sx={{ mt: 3, mb: 2 }}>
-        Add New Tenant
-      </Button>
+
+      <Link to={"/dashboard/add-tenant"} style={{ textDecoration: "none" }}>
+        <Button variant="contained" sx={{ mt: 3, mb: 2 }}>
+          Add New Tenant
+        </Button>
+      </Link>
       <ManagementTable></ManagementTable>
     </DashboardPage>
   );

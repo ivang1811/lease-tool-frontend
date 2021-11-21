@@ -70,13 +70,18 @@ export const mainListItems = (
 
 export const secondaryListItems = (
   <div>
-    <ListSubheader inset>Saved reports</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <ChatBubbleIcon />
-      </ListItemIcon>
-      <ListItemText primary="New Messages" />
-    </ListItem>
+    <ListSubheader inset>Notifications</ListSubheader>
+    <Link
+      to="/dashboard/chat"
+      style={{ color: "black", textDecoration: "none" }}
+    >
+      <ListItem button>
+        <ListItemIcon>
+          <ChatBubbleIcon />
+        </ListItemIcon>
+        <ListItemText primary="New Messages" />
+      </ListItem>
+    </Link>
     <ListItem button>
       <ListItemIcon>
         <MonetizationOnIcon />
