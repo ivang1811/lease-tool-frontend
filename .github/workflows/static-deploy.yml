@@ -43,7 +43,7 @@ jobs:
 
       - name: 🚀 Upload files to S3
         working-directory: build
-        run: aws s3 sync . s3://delux-edits
+        run: aws s3 sync . s3://lease-tool
 
       - name: 🗑️ Invalidate index.html
         working-directory: build
