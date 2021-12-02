@@ -89,12 +89,12 @@ export default function Home() {
             </Container>
           </div>
         </Box>
-        {/* <Container maxWidth="md" style={{ marginTop: 100 }}>
+        <Container maxWidth="md" style={{ marginTop: 100 }}>
           <Typography component="h2" variant="h2" align="center" gutterBottom>
             Register
           </Typography>
           <SignUpForm />
-        </Container> */}
+        </Container>
         <PricingContent></PricingContent>
       </main>
       {/* Footer */}
