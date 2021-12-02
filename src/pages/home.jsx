@@ -83,13 +83,13 @@ export default function Home() {
                 spacing={2}
                 justifyContent="center"
               >
-                <Button variant="contained">Log in</Button>
-                <Button variant="outlined">Register</Button>
+                {/* <Button variant="contained">Log in</Button>
+                <Button variant="outlined">Register</Button> */}
               </Stack>
             </Container>
           </div>
         </Box>
-        <Container maxWidth="md" style={{ marginTop: 15 }}>
+        <Container maxWidth="md" style={{ marginTop: 100 }}>
           <Typography component="h2" variant="h2" align="center" gutterBottom>
             Register
           </Typography>

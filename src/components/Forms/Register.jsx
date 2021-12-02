@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import { makeStyles, useTheme } from "@material-ui/core";
 
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -10,9 +11,20 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import ColorToggleButton from "../utils/ToggleButton";
 import { registerService } from "../../services/register";
-const theme = createTheme();
+import { useUser } from "../../hooks/useUser";
+
+const useStyles = makeStyles((theme) => ({
+  submitButton: {
+    color: theme.palette.primary,
+  },
+}));
 
 export default function SignUpForm() {
+  const { state, dispatch } = useUser();
+  const classes = useStyles();
+  console.log(state);
+  const theme = useTheme();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -25,6 +37,7 @@ export default function SignUpForm() {
       password: data.get("password"),
       phoneNumber: data.get("phonenumber"),
     });
+    dispatch({ type: "SET", data: registerData });
   };
 
   return (
