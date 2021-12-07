@@ -157,10 +157,11 @@ function PricingContent() {
                     align: "center",
                   }}
                   sx={{
+                    color: tier.title === "Pro" ? "white" : "black",
                     backgroundColor: (theme) =>
-                      theme.palette.mode === "light"
-                        ? theme.palette.grey[200]
-                        : theme.palette.grey[700],
+                      tier.title === "Pro"
+                        ? "#26b7a0"
+                        : theme.palette.grey[300],
                   }}
                 />
                 <CardContent>

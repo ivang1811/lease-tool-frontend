@@ -14,6 +14,8 @@ import AddNewTenant from "./pages/AddNewTenant";
 import ChatPage from "./pages/ChatPage";
 import { UserProvider } from "./context/UserContext";
 import { ThemeProvider, createTheme } from "@material-ui/core/styles";
+import AddNewProperty from "./pages/AddnewProperty";
+import leaseAgreementView from "./pages/lease-agreement";
 
 const theme = createTheme({
   palette: {
@@ -25,7 +27,7 @@ const theme = createTheme({
     },
     secondary: {
       light: "#686a78",
-      main: "#3d3f4c",
+      main: "#3d3f2c",
       dark: "#171924",
       contrastText: "#000",
     },
@@ -44,6 +46,10 @@ function App() {
             <Route path="/faq" element={<Faq />} />
             <Route path="/dashboard" element={<DashboardPage />}></Route>
             <Route
+              path="/dashboard/add-property"
+              element={<AddNewProperty />}
+            ></Route>
+            <Route
               path="/dashboard/create-lease"
               element={<CreateNewLease />}
             ></Route>
@@ -58,6 +64,10 @@ function App() {
               element={<AddNewTenant />}
             ></Route>
             <Route path="/dashboard/chat" element={<ChatPage />}></Route>
+            <Route
+              path="/dashboad/template-lease"
+              element={<leaseAgreementView />}
+            ></Route>
           </Routes>
         </Router>
       </UserProvider>

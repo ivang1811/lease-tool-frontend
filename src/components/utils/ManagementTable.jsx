@@ -4,7 +4,7 @@ import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
@@ -21,6 +21,30 @@ import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
+import { styled } from "@mui/material/styles";
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: "#26b789",
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: "#f5f5f5",
+  },
+  "&:nth-of-type(even)": {
+    backgroundColor: "#f5f5f5",
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
 
 function createData(name, email, Address, ContactNumber, MonthlyRent) {
   return {
@@ -31,93 +55,6 @@ function createData(name, email, Address, ContactNumber, MonthlyRent) {
     MonthlyRent,
   };
 }
-
-const rows = [
-  createData(
-    "James May",
-    "James.May@gmail.com",
-    "103 Road Road, XW2 4VW",
-    "078210312",
-    430
-  ),
-  createData(
-    "James May",
-    "James.May@gmail.com",
-    "103 Road Road, XW2 4VW",
-    "078210312",
-    430
-  ),
-  createData(
-    "James May",
-    "James.May@gmail.com",
-    "103 Road Road, XW2 4VW",
-    "078210312",
-    430
-  ),
-  createData(
-    "James May",
-    "James.May@gmail.com",
-    "103 Road Road, XW2 4VW",
-    "078210312",
-    430
-  ),
-  createData(
-    "James May",
-    "James.May@gmail.com",
-    "103 Road Road, XW2 4VW",
-    "078210312",
-    430
-  ),
-  createData(
-    "James May",
-    "James.May@gmail.com",
-    "103 Road Road, XW2 4VW",
-    "078210312",
-    430
-  ),
-  createData(
-    "James May",
-    "James.May@gmail.com",
-    "103 Road Road, XW2 4VW",
-    "078210312",
-    430
-  ),
-  createData(
-    "James May",
-    "James.May@gmail.com",
-    "103 Road Road, XW2 4VW",
-    "078210312",
-    430
-  ),
-  createData(
-    "James May",
-    "James.May@gmail.com",
-    "103 Road Road, XW2 4VW",
-    "078210312",
-    430
-  ),
-  createData(
-    "James May",
-    "James.May@gmail.com",
-    "103 Road Road, XW2 4VW",
-    "078210312",
-    430
-  ),
-  createData(
-    "James May",
-    "James.May@gmail.com",
-    "103 Road Road, XW2 4VW",
-    "078210312",
-    430
-  ),
-  createData(
-    "James May",
-    "James.May@gmail.com",
-    "103 Road Road, XW2 4VW",
-    "078210312",
-    430
-  ),
-];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -149,39 +86,6 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const headCells = [
-  {
-    id: "name",
-    numeric: false,
-    disablePadding: true,
-    label: "Name",
-  },
-  {
-    id: "email",
-    numeric: false,
-    disablePadding: false,
-    label: "Email",
-  },
-  {
-    id: "Address",
-    numeric: false,
-    disablePadding: false,
-    label: "Address",
-  },
-  {
-    id: "ContactNumber",
-    numeric: true,
-    disablePadding: false,
-    label: "Contact Number",
-  },
-  {
-    id: "MonthlyRent",
-    numeric: true,
-    disablePadding: false,
-    label: "Monthly Rent",
-  },
-];
-
 function ManagementTableHead(props) {
   const {
     onSelectAllClick,
@@ -190,6 +94,7 @@ function ManagementTableHead(props) {
     numSelected,
     rowCount,
     onRequestSort,
+    headCells,
   } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -198,7 +103,7 @@ function ManagementTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
+        <StyledTableCell padding="checkbox">
           <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -208,9 +113,9 @@ function ManagementTableHead(props) {
               "aria-label": "select all desserts",
             }}
           />
-        </TableCell>
+        </StyledTableCell>
         {headCells.map((headCell) => (
-          <TableCell
+          <StyledTableCell
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "normal"}
@@ -228,21 +133,12 @@ function ManagementTableHead(props) {
                 </Box>
               ) : null}
             </TableSortLabel>
-          </TableCell>
+          </StyledTableCell>
         ))}
       </TableRow>
     </TableHead>
   );
 }
-
-ManagementTableHead.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-};
 
 const ManagementTableToolbar = (props) => {
   const { numSelected } = props;
@@ -302,7 +198,7 @@ ManagementTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function ManagementTable() {
+export default function ManagementTable({ rows, headCells }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
@@ -317,19 +213,19 @@ export default function ManagementTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
+      const newSelecteds = rows.map((n) => n.Properties_Id);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, Properties_Id) => {
+    const selectedIndex = selected.indexOf(Properties_Id);
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, Properties_Id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -352,8 +248,8 @@ export default function ManagementTable() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  console.log(rows);
+  const isSelected = (Properties_Id) => selected.indexOf(Properties_Id) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -361,7 +257,7 @@ export default function ManagementTable() {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
+      <Paper sx={{ width: "100%" }}>
         <ManagementTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
@@ -376,6 +272,7 @@ export default function ManagementTable() {
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
+              headCells={headCells}
             />
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
@@ -383,17 +280,17 @@ export default function ManagementTable() {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row.Properties_Id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
+                      onClick={(event) => handleClick(event, row.Properties_Id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={row.Properties_Id}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -411,12 +308,20 @@ export default function ManagementTable() {
                         scope="row"
                         padding="none"
                       >
-                        {row.name}
+                        {row.Properties_AddressLine_1}
                       </TableCell>
-                      <TableCell align="right">{row.email}</TableCell>
-                      <TableCell align="right">{row.Address}</TableCell>
-                      <TableCell align="right">{row.ContactNumber}</TableCell>
-                      <TableCell align="right">£{row.MonthlyRent}</TableCell>
+                      <TableCell align="right">
+                        {row.Properties_AddressLine_2}
+                      </TableCell>
+                      <TableCell align="right">
+                        {row.Properties_AddressLine_Borough}
+                      </TableCell>
+                      <TableCell align="right">
+                        {row.Properties_AddressLine_Postcode}
+                      </TableCell>
+                      <TableCell align="right">
+                        {row.Properties_PropertyType}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
