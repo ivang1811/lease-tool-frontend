@@ -1,17 +1,29 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import Typography from "@mui/material/Typography";
 import { makeStyles, useTheme } from "@material-ui/core";
 
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ColorToggleButton from "../utils/ToggleButton";
 import { registerService } from "../../services/register";
 import { useUser } from "../../hooks/useUser";
+import { styled } from "@mui/material/styles";
+const theme = createTheme();
+
+const ColorButton = styled(Button)(({ theme }) => ({
+  color: "#fff",
+  borderRadius: "2rem",
+  backgroundColor: "#26b789",
+  "&:hover": {
+    backgroundColor: "#4acfa5",
+  },
+}));
 
 const useStyles = makeStyles((theme) => ({
   submitButton: {
@@ -21,8 +33,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUpForm() {
   const { state, dispatch } = useUser();
+  const navigate = useNavigate();
   const classes = useStyles();
-  console.log(state);
   const theme = useTheme();
 
   const handleSubmit = async (event) => {
@@ -38,6 +50,8 @@ export default function SignUpForm() {
       phoneNumber: data.get("phonenumber"),
     });
     dispatch({ type: "SET", data: registerData });
+    console.log("yeet");
+    navigate("/dashboard", { replace: true });
   };
 
   return (
@@ -48,10 +62,11 @@ export default function SignUpForm() {
       sx={{ mt: 3 }}
       style={{ textAlign: "center" }}
     >
-      <ColorToggleButton />
+      {/* <ColorToggleButton /> */}
       <Grid container spacing={2} style={{ marginTop: 3 }}>
         <Grid item xs={12} sm={6}>
           <TextField
+            style={{ backgroundColor: "white" }}
             autoComplete="given-name"
             name="firstName"
             required
@@ -63,6 +78,7 @@ export default function SignUpForm() {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
+            style={{ backgroundColor: "white" }}
             required
             fullWidth
             id="lastName"
@@ -73,6 +89,7 @@ export default function SignUpForm() {
         </Grid>
         <Grid item xs={12}>
           <TextField
+            style={{ backgroundColor: "white" }}
             required
             fullWidth
             id="email"
@@ -83,6 +100,7 @@ export default function SignUpForm() {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
+            style={{ backgroundColor: "white" }}
             required
             fullWidth
             name="password"
@@ -94,6 +112,7 @@ export default function SignUpForm() {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
+            style={{ backgroundColor: "white" }}
             required
             fullWidth
             name="Confirmpassword"
@@ -106,6 +125,7 @@ export default function SignUpForm() {
         <Grid item xs={12}>
           <TextField
             required
+            style={{ backgroundColor: "white" }}
             fullWidth
             name="phonenumber"
             label="Phone"
@@ -121,16 +141,32 @@ export default function SignUpForm() {
           />
         </Grid>
       </Grid>
-      <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+      <ColorButton
+        type="submit"
+        fullWidth
+        variant="contained"
+        sx={{ mt: 3, mb: 2 }}
+      >
         Sign Up
-      </Button>
-      <Grid container justifyContent="flex-end">
-        <Grid item>
-          <Link to="/login" variant="body2">
-            Already have an account? Sign in
-          </Link>
-        </Grid>
-      </Grid>
+      </ColorButton>
+      <div style={{ width: "100%", borderTop: "2px solid #a1a1a1" }}></div>
+      <Typography
+        component="h6"
+        variant="h6"
+        style={{ marginTop: 11, fontSize: "1rem" }}
+      >
+        Alreadty have an account?
+      </Typography>
+      <ColorButton
+        type="submit"
+        fullWidth
+        color="success"
+        variant="contained"
+        sx={{ mt: 3, mb: 2 }}
+        // className={classes.button}
+      >
+        LOGIN HERE
+      </ColorButton>
     </Box>
   );
 }

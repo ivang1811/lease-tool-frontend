@@ -20,6 +20,9 @@ import Select from "@mui/material/Select";
 import Toolbar from "@mui/material/Toolbar";
 import DashboardPage from "../components/utils/DashboardPage";
 import { styled } from "@mui/material/styles";
+import { useUser } from "../hooks/useUser";
+import { addPropertyService } from "../services/property";
+import { useNavigate } from "react-router-dom";
 const theme = createTheme();
 
 const ColorButton = styled(Button)(({ theme }) => ({
@@ -31,17 +34,25 @@ const ColorButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-export default function AddNewTenant() {
+export default function AddNewProperty() {
   const [Property, setProperty] = useState("");
-
-  const handleSubmit = (event) => {
+  const { state } = useUser();
+  const navigate = useNavigate();
+  console.log(state);
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+
+    const propertyData = await addPropertyService({
+      AddressLine_1: data.get("AddressLine_1"),
+      AddressLine_2: data.get("AddressLine_2"),
+      AddressLine_Borough: data.get("AddressLine_Borough"),
+      AddressLine_Postcode: data.get("AddressLine_Postcode"),
+      PropertyType: data.get("PropertyType"),
+      LandlordId: state.Id,
     });
+    navigate("/dashboard", { replace: true });
   };
 
   return (
@@ -68,7 +79,7 @@ export default function AddNewTenant() {
             <HomeIcon />
           </Avatar>
           <Typography color={"#26b789"} component="h1" variant="h3">
-            Add New Tenant
+            Add New Property
           </Typography>
           <Box
             component="form"
@@ -82,11 +93,11 @@ export default function AddNewTenant() {
                 <TextField
                   style={{ backgroundColor: "white" }}
                   autoComplete="given-name"
-                  name="Name"
+                  name="AddressLine_1"
                   required
                   fullWidth
-                  id="Name"
-                  label="Name"
+                  id="AddressLine_1"
+                  label="Address Line 1"
                   autoFocus
                 />
               </Grid>
@@ -95,11 +106,11 @@ export default function AddNewTenant() {
                   style={{ backgroundColor: "white" }}
                   required
                   fullWidth
-                  name="Email"
-                  label="Email"
-                  type="Email"
-                  id="Email"
-                  autoComplete="Email"
+                  name="AddressLine_Postcode"
+                  label="Address Line Postcode"
+                  type="AddressLine_Postcode"
+                  id="AddressLine_Postcode"
+                  autoComplete="nConfirmpassword"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -107,22 +118,23 @@ export default function AddNewTenant() {
                   style={{ backgroundColor: "white" }}
                   required
                   fullWidth
-                  id="Phone_number"
-                  label="Phone Number"
-                  name="Phone_number"
-                  autoComplete="Phone_number"
+                  id="AddressLine_2"
+                  label="Address Line 2"
+                  name="AddressLine_2"
+                  autoComplete="AddressLine_2"
                 />
               </Grid>
+              <Grid item xs={12} sm={6}></Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   style={{ backgroundColor: "white" }}
                   required
                   fullWidth
-                  name="Selectlease"
-                  label="Select Lease"
-                  type="Selectlease"
-                  id="Selectlease"
-                  autoComplete="Selectlease"
+                  name="AddressLine_Borough"
+                  label="Address Line Borough"
+                  type="AddressLine_Borough"
+                  id="AddressLine_Borough"
+                  autoComplete="AddressLine_Borough"
                 />
               </Grid>
 
@@ -131,40 +143,37 @@ export default function AddNewTenant() {
                   style={{ backgroundColor: "white" }}
                   required
                   fullWidth
-                  name="Deposit"
-                  label="Deposit"
-                  type="Deposit"
-                  id="Deposit"
-                  autoComplete="Deposit"
+                  name="PropertyType"
+                  label="Property Type"
+                  type="PropertyType"
+                  id="PropertyType"
+                  autoComplete="PropertyType"
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  style={{ backgroundColor: "white" }}
-                  required
-                  fullWidth
-                  name="Duration"
-                  label="Duration"
-                  type="Duration"
-                  id="Duration"
-                  autoComplete="Duration"
+
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Checkbox value="allowExtraEmails" color="primary" />
+                  }
+                  label="I agree to the terms of service "
                 />
               </Grid>
             </Grid>
+            <ColorButton
+              type="submit"
+              fullWidth
+              color="success"
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              style={{ padding: "1rem", fontSize: "1rem" }}
+              // className={classes.button}
+            >
+              ADD PROPERTY
+            </ColorButton>
           </Box>
         </Box>
       </Container>
-      <ColorButton
-        type="submit"
-        fullWidth
-        color="success"
-        variant="contained"
-        sx={{ mt: 3, mb: 2 }}
-        style={{ padding: "1rem", fontSize: "1rem" }}
-        // className={classes.button}
-      >
-        ADD PROPERTY
-      </ColorButton>
     </DashboardPage>
   );
 }

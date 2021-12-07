@@ -20,25 +20,48 @@ const theme = createTheme();
 export default function SignUp() {
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+      <Box
+        style={{ position: "absolute" }}
+        sx={{
+          height: "93.36vh",
+          background: "url(/background.png)",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          width: "100%",
+          zIndex: 10,
+        }}
+      >
+        <Container
+          component="main"
+          maxWidth="sm"
+          style={{
+            backgroundColor: "#f0f0f0",
+            borderRadius: "2rem",
+            // padding: "1rem",
+            zIndex: 11,
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <SignUpForm />
-        </Box>
-      </Container>
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              padding: "2rem",
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h3">
+              Sign up
+            </Typography>
+            <SignUpForm />
+          </Box>
+        </Container>
+      </Box>
     </ThemeProvider>
   );
 }
