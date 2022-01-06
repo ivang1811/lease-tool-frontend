@@ -11,12 +11,13 @@ export default function DashboardPage({
   children,
   containerSize,
   WithoutBox = false,
+  tenant,
 }) {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ display: "flex", maxHeight: "93vh" }}>
         <CssBaseline />
-        <SideNav />
+        <SideNav tenant={tenant} />
         <Box
           component="main"
           sx={{

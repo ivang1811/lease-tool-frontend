@@ -31,6 +31,7 @@ const useStyles = makeStyles({
   },
   borderRight500: {
     borderRight: "1px solid #e0e0e0",
+    borderRadius: "2rem",
   },
   messageArea: {
     height: "70vh",
@@ -38,6 +39,7 @@ const useStyles = makeStyles({
   },
   active: {
     backgroundColor: "#26b7a0",
+    borderRadius: "2rem",
   },
 });
 const theme = createTheme();
@@ -51,13 +53,19 @@ export default function ChangeRequest() {
       </Typography>
       <div>
         <Grid container component={Paper} className={classes.chatSection}>
-          <Grid item xs={3} className={classes.borderRight500}>
-            <Divider />
-            <Grid item xs={12} style={{ padding: "10px" }}>
-              <TextField id="outlined-basic-email" label="Search" fullWidth />
-            </Grid>
-            <Divider />
-            <List style={{ backgroundColor: "#26b789", color: "white" }}>
+          <Grid
+            item
+            xs={3}
+            className={classes.borderRight500}
+            style={{ borderRadius: "2rem" }}
+          >
+            <List
+              style={{
+                backgroundColor: "#26b789",
+                color: "white",
+                borderRadius: "2rem 0 0 2rem",
+              }}
+            >
               <ListItem button key="RemySharp" className={classes.active}>
                 <ListItemIcon>
                   <Avatar
@@ -92,7 +100,71 @@ export default function ChangeRequest() {
               </ListItem>
             </List>
           </Grid>
-          <Grid item xs={9}></Grid>
+          <Grid
+            item
+            xs={9}
+            style={{
+              backgroundColor: "#f0f0f0",
+              borderRadius: "0 2rem 2rem 0",
+              color: "#26b789",
+            }}
+          >
+            <Box textAlign={"center"}>
+              <p>Address</p>
+              <p>Address</p>
+              <p>Address</p>
+            </Box>
+            <Grid
+              container
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+              spacing={5}
+              style={{ margin: "0.5rem" }}
+            >
+              <Grid
+                item
+                xs={5}
+                style={{
+                  textAlign: "center",
+                }}
+              >
+                <Typography component="h1" variant="h5">
+                  Current
+                </Typography>
+                <Box
+                  style={{
+                    backgroundColor: "#ffffff",
+                    borderRadius: "2rem",
+                    textAlign: "center",
+                    width: "100%",
+                    height: 300,
+                  }}
+                ></Box>
+              </Grid>
+
+              <Grid
+                item
+                xs={5}
+                style={{
+                  textAlign: "center",
+                }}
+              >
+                <Typography component="h1" variant="h5">
+                  Proposed
+                </Typography>
+                <Box
+                  style={{
+                    backgroundColor: "#ffffff",
+                    borderRadius: "2rem",
+                    textAlign: "center",
+                    width: "100%",
+                    height: 300,
+                  }}
+                ></Box>
+              </Grid>
+            </Grid>
+          </Grid>
         </Grid>
       </div>
     </DashboardPage>

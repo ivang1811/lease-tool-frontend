@@ -6,8 +6,9 @@ import ManagementTable from "../components/utils/ManagementTable";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
-import { getTenantPost } from "../services/tenant";
+import { getPropertyPost } from "../services/property";
 import { useUser } from "../hooks/useUser";
+import { getLeaseByLandlord } from "../services/lease";
 const theme = createTheme();
 
 const ColorButton = styled(Button)(({ theme }) => ({
@@ -24,31 +25,31 @@ const headCells = [
     id: "Properties_AddressLine_1",
     numeric: false,
     disablePadding: true,
-    label: "First Name",
+    label: "Document Name",
   },
   {
     id: "Properties_AddressLine_2",
     numeric: false,
     disablePadding: false,
-    label: "Second Name",
+    label: "Property Address",
   },
   {
     id: "Properties_AddressLine_Borough",
     numeric: false,
     disablePadding: false,
-    label: "Email",
+    label: "Property Borough",
   },
   {
     id: "Properties_AddressLine_Postcode",
     numeric: false,
     disablePadding: false,
-    label: "Property",
+    label: "Post Code",
   },
   {
     id: "Properties_PropertyType",
     numeric: false,
     disablePadding: false,
-    label: "Phone Number",
+    label: "Property Type",
   },
 ];
 
@@ -59,7 +60,8 @@ function createData(
   Properties_AddressLine_Borough,
   Properties_AddressLine_Postcode,
   Properties_PropertyType,
-  lease
+  lease,
+  leaseTable
 ) {
   return {
     Properties_Id,
@@ -69,50 +71,55 @@ function createData(
     Properties_AddressLine_Postcode,
     Properties_PropertyType,
     lease,
+    leaseTable,
   };
 }
 
 const transformData = (data) => {
   return data.map((item) => {
     return createData(
-      item.tenant.Tenants_Id,
-      item.tenant.Tenants_Forename,
-      item.tenant.Tenants_Surname,
-      item.tenant.Tenants_Email,
+      item.leases.lease_Id,
+      item.leases.lease_DocumentName,
       item.property.Properties_AddressLine_1,
-      item.tenant.Tenants_PhoneNumber,
-      item.lease.lease_DocumentLink
+      item.property.Properties_AddressLine_Borough,
+      item.property.Properties_AddressLine_Postcode,
+      item.property.Properties_PropertyType,
+      item.leases.lease_DocumentLink,
+      true
     );
   });
 };
-export default function Tenants() {
+
+const rowsv = [
+  createData(
+    "James May",
+    "James.May@gmail.com",
+    "103 Road Road, XW2 4VW",
+    "078210312",
+    "430"
+  ),
+];
+
+export default function Leases() {
   const [rows, setRows] = useState([]);
   const { state } = useUser();
   useEffect(async () => {
-    const tenantData = await getTenantPost({
+    const leaseData = await getLeaseByLandlord({
       LandlordId: state.Id,
     });
-    console.log(tenantData);
 
-    tenantData.tenants.forEach((item) => {
-      delete item.Tenants_LandlordId;
-      delete item.Tenants_PropertyId;
-      delete item.Tenant_Title;
-      delete item.Tenants_PasswordHash;
-    });
-    const cleanedRows = transformData(tenantData.tenants);
+    const cleanedRows = transformData(leaseData.leases);
     setRows(cleanedRows);
   }, []);
   console.log(rows);
   return (
     <DashboardPage containerSize="lg">
       <Typography component="h1" variant="h5" style={{ marginBottom: 15 }}>
-        Manage Tenant
+        Manage Leases
       </Typography>
-
-      <ManagementTable headCells={headCells} rows={rows}></ManagementTable>
+      <ManagementTable rows={rows} headCells={headCells}></ManagementTable>
       <Link
-        to={"/dashboard/add-tenant"}
+        to={"/dashboard/create-lease"}
         style={{ textDecoration: "none", width: "100%" }}
       >
         <ColorButton
@@ -120,7 +127,7 @@ export default function Tenants() {
           style={{ marginTop: 0, width: "100%" }}
           variant="contained"
         >
-          Add New Tenant
+          Add New Lease
         </ColorButton>
       </Link>
     </DashboardPage>

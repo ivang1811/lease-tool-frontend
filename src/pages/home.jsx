@@ -67,7 +67,7 @@ export default function Home() {
                 align="center"
                 gutterBottom
               >
-                RentBuddies
+                RentEasy
               </Typography>
               <Typography variant="h5" align="center" paragraph>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam

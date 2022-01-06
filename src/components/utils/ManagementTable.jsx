@@ -22,6 +22,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import { styled } from "@mui/material/styles";
+import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -135,6 +137,9 @@ function ManagementTableHead(props) {
             </TableSortLabel>
           </StyledTableCell>
         ))}
+        <StyledTableCell key={"action"} align={"center"} padding={"normal"}>
+          Actions
+        </StyledTableCell>
       </TableRow>
     </TableHead>
   );
@@ -198,6 +203,13 @@ ManagementTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
+const ColorButton = styled(Button)(({ theme }) => ({
+  color: "#fff",
+  backgroundColor: "#26b789",
+  "&:hover": {
+    backgroundColor: "#4acfa5",
+  },
+}));
 export default function ManagementTable({ rows, headCells }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -271,7 +283,7 @@ export default function ManagementTable({ rows, headCells }) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={rows.length + 1}
               headCells={headCells}
             />
             <TableBody>
@@ -310,17 +322,43 @@ export default function ManagementTable({ rows, headCells }) {
                       >
                         {row.Properties_AddressLine_1}
                       </TableCell>
-                      <TableCell align="right">
+                      <TableCell align="left">
                         {row.Properties_AddressLine_2}
                       </TableCell>
-                      <TableCell align="right">
+                      <TableCell align="left">
                         {row.Properties_AddressLine_Borough}
                       </TableCell>
-                      <TableCell align="right">
+                      <TableCell align="left">
                         {row.Properties_AddressLine_Postcode}
                       </TableCell>
-                      <TableCell align="right">
+                      <TableCell align="left">
                         {row.Properties_PropertyType}
+                      </TableCell>
+                      <TableCell align="left">
+                        <Link
+                          to={
+                            row.lease
+                              ? row.leaseTable
+                                ? `/dashboard/edit-lease?id=${row.Properties_Id}`
+                                : `/dashboard/edit-tenant?id=${row.Properties_Id}`
+                              : `/dashboard/edit-property?id=${row.Properties_Id}`
+                          }
+                          style={{
+                            color: "white",
+                            textDecoration: "none",
+                            marginRight: "5px",
+                          }}
+                        >
+                          <ColorButton>Edit</ColorButton>
+                        </Link>
+                        {row.lease && (
+                          <a
+                            style={{ textDecoration: "none" }}
+                            href={row.lease}
+                          >
+                            <ColorButton>Download lease</ColorButton>
+                          </a>
+                        )}
                       </TableCell>
                     </TableRow>
                   );

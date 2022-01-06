@@ -16,39 +16,50 @@ import HomeIcon from "@mui/icons-material/Home";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import { getPropertyPost } from "../services/property";
+// import { Link } from "react-router-dom";
 import Select from "@mui/material/Select";
 import { useUser } from "../hooks/useUser";
 import DashboardPage from "../components/utils/DashboardPage";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DatePicker from "@mui/lab/DatePicker";
+import { DropzoneArea } from "material-ui-dropzone";
+import { getLeaseByid, updateLease } from "../services/lease";
+import { useSearchParams } from "react-router-dom";
+import { styled } from "@mui/material/styles";
 const theme = createTheme();
 
-export default function CreateNewLease() {
-  const [Property, setProperty] = useState("");
+const ColorButton = styled(Button)(({ theme }) => ({
+  color: "#fff",
+  backgroundColor: "#26b789",
+  "&:hover": {
+    backgroundColor: "#4acfa5",
+  },
+}));
+
+export default function EditLease() {
   const [leaseName, setLeaseName] = useState("");
   const [leaseType, setLeaseType] = useState("");
   const [valueDateOne, setValueDateOne] = useState("");
   const [valueDateTwo, setValueDateTwo] = useState("");
+  const [values, setValues] = useState({});
   const [files, setFiles] = useState([]);
-  const [propertyOptions, setPropertyOptions] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const { state } = useUser();
   useEffect(async () => {
-    const propertyData = await getPropertyPost({
-      LandlordId: state.Id,
+    const leaseData = await getLeaseByid({
+      Id: searchParams.get("id"),
     });
+    console.log(leaseData);
 
-    propertyData.properties.forEach((item) => {
-      delete item.Properties_LandlordId;
+    setValues({
+      document_link: leaseData.leases[0].lease_DocumentLink,
+      leaseType: leaseData.leases[0].lease_LeaseType,
+      DocumentName: leaseData.leases[0].lease_DocumentName,
     });
-    setPropertyOptions(propertyData.properties);
   }, []);
 
   const onLoad = async ({ file, name }) => {
     console.log(file);
-    const block = `${state.Id}/${Property}/${leaseName}`;
+    const block = `${state.Id}/${leaseName}`;
     console.log({
       propertyID: state.Id,
       documentName: leaseName,
@@ -59,22 +70,20 @@ export default function CreateNewLease() {
     });
     console.log(signedUrl);
 
-    const leaseAgreement = await addLeaseAgreement({
-      propertyID: Property,
-      documentName: leaseName,
-      leaseType: leaseType,
-      documentLink: signedUrl,
+    const leaseAgreement = await updateLease({
+      Id: searchParams.get("id"),
+      DocumentName: values.DocumentName,
+      LeaseType: values.leaseType,
+      DocumentLink: signedUrl,
     });
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    // eslint-disable-next-line no-console
-    const leaseAgreement = await addLeaseAgreement({
-      propertyID: Property,
-      documentName: leaseName,
-      leaseType: leaseType,
-      documentLink:
+    const leaseAgreement = await updateLease({
+      Id: searchParams.get("id"),
+      DocumentName: values.DocumentName,
+      LeaseType: values.leaseType,
+      DocumentLink:
         "https://lease-tool.s3.amazonaws.com/dxf/leaseAgreement.docx?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVD55LNST6IHBCI4H%2F20220104%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20220104T102211Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=501ba9e210856d0784da296af4fcb524c45c99bc1ee5caa97c68b06544aee2a5",
     });
   };
@@ -85,74 +94,62 @@ export default function CreateNewLease() {
         <HomeIcon />
       </Avatar>
       <Typography component="h1" variant="h5">
-        Create New Lease For Property
+        Edit Lease {values.DocumentName}
       </Typography>
+      <a style={{ textDecoration: "none" }} href={values.document_link}>
+        <ColorButton>Download lease</ColorButton>
+      </a>
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Property</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={Property}
-            label="Property"
-            onChange={(event) => setProperty(event.target.value)}
-          >
-            {propertyOptions.map((item) => (
-              <MenuItem key={item.Properties_Id} value={item.Properties_Id}>
-                {item.Properties_AddressLine_1}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
         {/* <DropzoneArea onChange={(files) => setFiles(files)} /> */}
         <TextField
           margin="normal"
           required
           fullWidth
           id="LeaseName"
+          value={values.DocumentName}
           label="Lease Name"
           name="LeaseName"
           autoComplete="LeaseName"
-          onChange={(event) => setLeaseName(event.target.value)}
+          onChange={(event) =>
+            setValues({
+              document_link: values.lease_DocumentLink,
+              leaseType: values.lease_LeaseType,
+              DocumentName: event.target.value,
+            })
+          }
           autoFocus
         />
-        <FormControl fullWidth style={{ marginBottom: "15px" }}>
-          <LocalizationProvider
-            style={{ marginLeft: "5px" }}
-            dateAdapter={AdapterDateFns}
-          >
-            <DatePicker
-              style={{ marginLeft: "5px" }}
-              label="Start Date"
-              value={valueDateOne}
-              onChange={(newValue) => {
-                setValueDateOne(newValue);
-              }}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </LocalizationProvider>
-        </FormControl>
-        <FormControl fullWidth>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DatePicker
-              label="End Date"
-              value={valueDateTwo}
-              onChange={(newValue) => {
-                setValueDateTwo(newValue);
-              }}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </LocalizationProvider>
-        </FormControl>
         <TextField
           margin="normal"
           required
           fullWidth
           id="LeaseName"
+          value={"20/12/2022"}
+          label="Start Date"
+          name="LeaseName"
+          autoComplete="LeaseName"
+          autoFocus
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          id="LeaseName"
+          value={"20/12/2023"}
+          label="End Date"
+          name="LeaseName"
+          autoComplete="LeaseName"
+          autoFocus
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          id="LeaseName"
+          value={"1600"}
           label="Monthly Rent"
           name="LeaseName"
           autoComplete="LeaseName"
-          // onChange={(event) => setLeaseName(event.target.value)}
           autoFocus
         />
         <TextField
@@ -160,10 +157,10 @@ export default function CreateNewLease() {
           required
           fullWidth
           id="LeaseName"
-          label="Deposit Amount"
+          value={"3000"}
+          label="Deposit"
           name="LeaseName"
           autoComplete="LeaseName"
-          // onChange={(event) => setLeaseName(event.target.value)}
           autoFocus
         />
         <FormControl fullWidth>
@@ -171,9 +168,15 @@ export default function CreateNewLease() {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={leaseType}
+            value={values.leaseType}
             label="Property"
-            onChange={(event) => setLeaseType(event.target.value)}
+            onChange={(event) =>
+              setValues({
+                document_link: values.lease_DocumentLink,
+                leaseType: event.target.value,
+                DocumentName: values.DocumentName,
+              })
+            }
           >
             <MenuItem key="multi" value="multi">
               Multi-Tenant
@@ -183,6 +186,7 @@ export default function CreateNewLease() {
             </MenuItem>
           </Select>
         </FormControl>
+
         <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
           label="Do you agree to this lease as the landlord?"
@@ -193,7 +197,7 @@ export default function CreateNewLease() {
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
         >
-          Create New lease
+          Edit lease
         </Button>
       </Box>
     </DashboardPage>

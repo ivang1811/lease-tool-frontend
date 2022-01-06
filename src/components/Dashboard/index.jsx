@@ -13,12 +13,12 @@ import SideNav from "./SideNav";
 
 const mdTheme = createTheme();
 
-export default function DashboardContent() {
+export default function DashboardContent({ tenant }) {
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        <SideNav />
+        <SideNav tenant={tenant} />
         <Box
           component="main"
           sx={{

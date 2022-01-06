@@ -1,5 +1,9 @@
 import * as React from "react";
-import { mainListItems, secondaryListItems } from "./listItems";
+import {
+  mainListItems,
+  secondaryListItems,
+  mainLandlordListItems,
+} from "./listItems";
 import Divider from "@mui/material/Divider";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -36,11 +40,12 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-export default function SideNav() {
+export default function SideNav({ tenant }) {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+  const list = tenant ? mainListItems : mainLandlordListItems;
   return (
     <Drawer variant="permanent" open={open}>
       <Toolbar
@@ -56,7 +61,7 @@ export default function SideNav() {
         </IconButton>
       </Toolbar>
       <Divider />
-      <List>{mainListItems}</List>
+      <List>{list}</List>
       <Divider />
       <List>{secondaryListItems}</List>
     </Drawer>

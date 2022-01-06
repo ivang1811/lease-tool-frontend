@@ -11,7 +11,7 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import HomeIcon from "@mui/icons-material/Home";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import { Link } from "react-router-dom";
-export const mainListItems = (
+export const mainLandlordListItems = (
   <div>
     <Link to="/dashboard" style={{ color: "black", textDecoration: "none" }}>
       <ListItem button>
@@ -55,6 +55,17 @@ export const mainListItems = (
       </ListItem>
     </Link>
     <Link
+      to="/dashboard/leases"
+      style={{ color: "black", textDecoration: "none" }}
+    >
+      <ListItem button href="/dashboard/create-lease">
+        <ListItemIcon>
+          <AssignmentIcon />
+        </ListItemIcon>
+        <ListItemText primary="Leases" />
+      </ListItem>
+    </Link>
+    <Link
       to="/dashboard/create-lease"
       style={{ color: "black", textDecoration: "none" }}
     >
@@ -68,6 +79,40 @@ export const mainListItems = (
   </div>
 );
 
+export const mainListItems = (
+  <div>
+    <Link to="/dashboard" style={{ color: "black", textDecoration: "none" }}>
+      <ListItem button>
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="Main Dashboard" />
+      </ListItem>
+    </Link>
+    <Link
+      to="/tenant-dashboard/change-requests"
+      style={{ color: "black", textDecoration: "none" }}
+    >
+      <ListItem button>
+        <ListItemIcon>
+          <ShoppingCartIcon />
+        </ListItemIcon>
+        <ListItemText primary="Change Requests" />
+      </ListItem>
+    </Link>
+    <Link
+      to="/tenant-dashboard/lease"
+      style={{ color: "black", textDecoration: "none" }}
+    >
+      <ListItem button>
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Lease" />
+      </ListItem>
+    </Link>
+  </div>
+);
 export const secondaryListItems = (
   <div>
     <ListSubheader inset>Notifications</ListSubheader>
@@ -82,12 +127,7 @@ export const secondaryListItems = (
         <ListItemText primary="New Messages" />
       </ListItem>
     </Link>
-    <ListItem button>
-      <ListItemIcon>
-        <MonetizationOnIcon />
-      </ListItemIcon>
-      <ListItemText primary="New Deposits" />
-    </ListItem>
+
     <ListItem button></ListItem>
   </div>
 );
